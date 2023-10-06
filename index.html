@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>天気予報アプリ</title>
+    <link rel="stylesheet" href="css/reset.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <div class="wrapper">
+        <!-- 都市名サンプル 
+            tokyo, nagoya, chiba, osaka, kyoto, fukuoka, yokohama, hakone, matsuyama, aomori, kanazawa, okinawa -->
+        <div class="current">
+            <div class="selectbox">
+                <select name="住所" id="select_box">
+                    <option value="tokyo" selected>東京都</option>
+                </select>
+            </div>
+            <div class="city-name"></div>
+            <div class="weather-icon"></div>
+            <div class="current-temp"></div>
+            <div class="current-date"></div>
+        </div>
+
+        <!-- 天気予報の表示  -->
+        <div class="forecast"></div>
+
+    </div>
+    <!-- Javascriptの記述 -->
+    <script src="js/weather.min.js"></script>
+    <script>
+        "use strict";
+        const body = document.querySelector('body');
+        const crnt_city = document.querySelector('.current .city-name');
+        const crnt_icon = document.querySelector('.current .weather-icon');
+        const crnt_temp = document.querySelector('.current .current-temp');
+        const crnt_date = document.querySelector('.current .current-date');
+        const forecast = document.querySelector('.forecast');
+        const json_d = document.querySelector('.json');
+        let oldDate = '';
+        let newDate = '';
+
+        //現在の天気HTML
+        const current_view = (data) => {
+            crnt_city.innerHTML = `<h1>${data.name}の天気予報</h1>`;
+            crnt_icon.innerHTML =
+                `<img src="https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png" alt="">`;
+            crnt_temp.innerHTML = `${Math.round(data.main.temp)}℃`;
+            /*
+                背景画像を変化させよう
+            */
+            if (Math.round(data.main.temp) < 20) {
+                // body.style.backgroundImage = "";
+                console.log("0～20未満");
+            } else if (Math.round(data.main.temp) < 25) {
+                // body.style.backgroundImage = "";
+                console.log("20～25未満");
+            }
+            crnt_date.innerHTML = dateFormat();
+        };
+        //天気予報 HTML
+        const forecast_view = (data) => {
+            let html = '';
+            for (let i = 0; i <= 39; i += 1) {
+                const day = dateFormat(data.list[i].dt_txt);
+                const icon = data.list[i].weather[0].icon;
+                if (day[0] != '') {
+                    if (html !== '') {
+                        html += '</div>'
+                    }
+                    html +=
+                        `<div class="weather-report"><div class="weather-date">${day[0]}</div></div><div class="weather-wrap">`;
+                }
+                html +=
+                    `<div class="weather-item"><div class="weather-time">${day[1]}</div><img src="http://openweathermap.org/img/wn/${icon}.png"><div class="weather-text">${data.list[i].weather[0].description}</div><div class="weather-temp">${Math.round(data.list[i].main.temp)}℃</div></div>`;
+            }
+            forecast.innerHTML = html;
+        }
+
+        //現在の天気 読み込み
+        fetch(current_url)
+            .then(res => {
+                // res.json()をreturnすることで、次のthenにAPIで取得できる
+                // データをオブジェクト形式で渡すことができる
+                return res.json();
+            })
+            .then(data => {
+                // res.json()で受け取った中身を確認
+                // 実際にはここでdataの中身を利用して様々な処理をする
+                console.log('現在の天気');
+                console.log(data);
+                current_view(data);
+            });
+
+        // 天気予報 読み込み
+        fetch(forecast_url)
+            .then(res => {
+                // res.json()をreturnすることで、次のthenにAPIで取得できる
+                // データをオブジェクト形式で渡すことができる
+                return res.json();
+            })
+            .then(data => {
+                // res.json()で受け取った中身を確認
+                // 実際にはここでdataの中身を利用して様々な処理をする
+                console.log('天気予報');
+                console.log(data);
+                forecast_view(data);
+            });
+
+        const elem = document.getElementById('select_box');
+        elem.addEventListener('change', function () {
+            city = elem.value;
+            console.log(city);
+            current_url = 'https://api.openweathermap.org/data/2.5/weather?q=' + city + ',jp&units=metric&APPID=' + API_KEY + '&lang=ja';
+            forecast_url = 'https://api.openweathermap.org/data/2.5/forecast?q=' + city + ',jp&units=metric&APPID=' + API_KEY + '&lang=ja';
+            fetch(current_url)
+                .then(res => {
+                    // res.json()をreturnすることで、次のthenにAPIで取得できる
+                    // データをオブジェクト形式で渡すことができる
+                    return res.json();
+                })
+                .then(data => {
+                    // res.json()で受け取った中身を確認
+                    // 実際にはここでdataの中身を利用して様々な処理をする
+                    console.log('現在の天気');
+                    console.log(data);
+                    current_view(data);
+                });
+
+            // 天気予報 読み込み
+            fetch(forecast_url)
+                .then(res => {
+                    // res.json()をreturnすることで、次のthenにAPIで取得できる
+                    // データをオブジェクト形式で渡すことができる
+                    return res.json();
+                })
+                .then(data => {
+                    // res.json()で受け取った中身を確認
+                    // 実際にはここでdataの中身を利用して様々な処理をする
+                    console.log('天気予報');
+                    console.log(data);
+                    forecast_view(data);
+                });
+        }, false);
+    </script>
+</body>
+
+</html>

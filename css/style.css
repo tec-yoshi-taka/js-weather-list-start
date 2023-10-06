@@ -1,0 +1,152 @@
+body {
+    font-family: 'M PLUS Rounded 1c', sans-serif;
+    font-weight: 800;
+    color: #fff;
+    background: linear-gradient(90deg, rgba(126,184,255,1) 0%, rgba(0,105,191,1) 100%);
+}
+
+.wrapper {
+    width: 800px;
+    margin: 30px auto 0;
+}
+
+h1 {
+    font-size: 24px;
+    text-align: center;
+    font-weight: bold;
+}
+.current{
+    margin-bottom: 30px;
+}
+.current .weather-icon {
+    text-align: center;
+}
+
+.current .weather-icon img {
+    width: 150px;
+    height: auto;
+}
+
+.current .current-temp {
+    text-align: center;
+    margin-top: -30px;
+    margin-bottom: 10px;
+    font-size: 30px;
+    font-weight: bold;
+}
+
+.current .current-date {
+    font-size: 12px;
+    text-align: center;
+}
+.weather-report{
+    padding: 10px 0;
+    border-radius: 6px;
+    background: rgba(255, 255, 255, 0.233);
+    color: #fff;
+}
+.weather-wrap{
+    display: flex;
+    justify-content: center;
+}
+.weather-item{
+    text-align: center;
+    /* display:inline-block; */
+    margin: 0 20px 40px;
+    padding: 10px 0 0;
+}
+.weather-time{
+    font-weight: bold;
+}
+.weather-date{
+    text-align: center;
+    font-weight: bold;
+}
+.weather-text,.weather-temp{
+    margin-bottom: 0.4rem;
+}
+.graph-area{
+    margin: 20px 0;
+    border: 1px dashed rgba(255, 255, 255, 0.856);
+    padding: 10px 0;
+}
+
+
+.selectbox {
+    width:30%;
+    margin:1em auto;
+    position:relative;
+    color: cadetblue;
+}
+select{
+    -webkit-appearance:none;
+    appearance:none;
+    width:100%;
+    padding:1em 1em;
+    box-sizing:border-box;
+    font-size:1em;
+    border:#ccc 1px solid;
+    border-radius:0;
+    background:#fff;
+}
+.selectbox::after{
+    content:"";
+    display:block;
+    width:10px;
+    height:10px;
+    position:absolute;
+    right:5%;
+    top:35%;
+    border-bottom:#333 2px solid;
+    border-right:#333 2px solid;
+    transform:rotate(45deg)translateY(-30%);
+}
+.color.selectbox select{
+    background:blue;
+    color:#fff;
+    border-radius:2em;
+}
+.color.selectbox::after{
+    border-bottom:#fff 5px solid;
+    border-right:#fff 5px solid;
+}
+
+
+@media screen and (max-width: 828px) {
+    .wrapper {
+        width:100vw;
+        margin: 20px auto 0;
+    }
+    .weather-wrap{
+        flex-wrap: wrap;
+    }
+    .weather-item {
+        margin: 0 10px 5px;
+        padding: 5px 0 0;
+    }
+    .weather-report {
+        padding: 5px 0;
+        margin-bottom: 5px;
+        border-radius: 0px;
+    }
+    .current {
+        margin-bottom: 20px;
+    }
+    .graph-area{
+        display: none;
+    }
+    .selectbox {
+        width:80%;
+    }
+    /* .current .weather-icon img{
+        width: 100%;
+        height: auto;
+    }
+    .current .current-temp{
+        font-size: 3rem;
+        margin-bottom: 62px;
+    }
+    .current .current-date{
+        font-size: 1.5rem;
+    } */
+}
