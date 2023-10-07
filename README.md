@@ -26,10 +26,10 @@
 
 ```HTML
 <div class="selectbox">
-   <select name="住所" id="select_box">
-            <option value="tokyo" selected>東京都</option>
-            <option value="hokkaido">北海道</option>
-		</select>
+	<select name="住所" id="select_box">
+		<option value="tokyo" selected>東京都</option>
+		<option value="hokkaido">北海道</option>
+	</select>
 </div>
 
 ```
